@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class DebugPage : MonoBehaviour
+    public class DebugPage : PageBase
     {
     #region Unity events
 
         private void Start()
         {
-            CheatTool.Instance.AddButton("Test1" , () => Debug.Log("1"));
-            CheatTool.Instance.AddButton("Test2" , () => Debug.Log("2"));
-            CheatTool.Instance.AddButton("Test3" , () => Debug.Log("3"));
-            CheatTool.Instance.AddButton("Test4" , () => Debug.Log("4"));
+            AddButton("Test1" , () => Debug.Log("1"));
+            AddButton("Test2" , () => Debug.Log("2"));
+            AddButton("Test3" , () => Debug.Log("3"));
+            AddButton("Test4" , () => Debug.Log("4"));
         }
 
     #endregion
