@@ -64,16 +64,15 @@ namespace CheatTool
         {
             var button          = Instantiate(buttonPrefab , content);
             var buttonCellModel = button.gameObject.AddComponent<ButtonCellModel>();
-            buttonCellModel.Button = button;
-            buttonCellModel.Name   = cellText;
+            buttonCellModel.Button   = button;
+            buttonCellModel.CellText = cellText;
 
             buttonCellModels.Add(buttonCellModel);
 
-            var tmpText = button.GetComponentInChildren<TMP_Text>();
-            tmpText.text = cellText;
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => clicked?.Invoke());
             selectables.Add(button);
+            cellsForSearch.Add(buttonCellModel);
         }
 
         protected virtual void Initialization() { }
@@ -92,6 +91,7 @@ namespace CheatTool
 
         private void ExecuteButtonOfSelectable(int index)
         {
+            if (cellsForSearch.Count <= index) return;
             var selectable = cellsForSearch[index].Button;
             Select(selectable);
             ExecuteEvents.Execute(selectable.gameObject , new BaseEventData(EventSystem.current) , ExecuteEvents.submitHandler);
@@ -102,17 +102,15 @@ namespace CheatTool
             SetNavigationOfSelects(selectables);
             SelectFirst();
             searchField.onValueChanged.AddListener(OnSearchFieldChanged);
-            // searchField.onEndEdit.AddListener(str => Debug.Log($"EndEdit: {str}"));
         }
 
         private void OnSearchFieldChanged(string str)
         {
-            Debug.Log($"OnSearchFieldChanged: {str}");
             cellsForSearch.Clear();
             foreach (var buttonCellModel in buttonCellModels)
             {
                 var containKeyword =
-                        buttonCellModel.Name.Contains(
+                        buttonCellModel.CellText.Contains(
                                 str , StringComparison.OrdinalIgnoreCase);
                 bool active;
                 if (containKeyword)
@@ -176,6 +174,8 @@ namespace CheatTool
                     upIndex   = index - 1;
                     downIndex = index + 1;
                 }
+
+                if (selectableObj.TryGetComponent<ButtonCellModel>(out var buttonCellModel)) buttonCellModel.SetExecutionNumber(index);
 
                 var up   = selectableList[upIndex];
                 var down = selectableList[downIndex];

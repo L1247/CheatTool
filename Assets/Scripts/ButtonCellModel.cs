@@ -1,5 +1,6 @@
 #region
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,15 +12,25 @@ namespace CheatTool
     {
     #region Public Variables
 
-        public Button Button { get; set; }
-        public string Name
+        public Button Button
         {
-            get => name;
+            get => button;
             set
             {
-                name = value;
-                var buttonName = $"Button - {name}";
+                button              = value;
+                executionNumberText = button.transform.Find("HorizontalLayoutGroup/Execution Number").GetComponent<TMP_Text>();
+            }
+        }
+        public string CellText
+        {
+            get => cellText;
+            set
+            {
+                cellText = value;
+                var buttonName = $"Button - {cellText}";
                 Button.name = buttonName;
+                var tmpText = button.transform.Find("HorizontalLayoutGroup/CellText").GetComponent<TMP_Text>();
+                tmpText.text = value;
             }
         }
 
@@ -27,7 +38,21 @@ namespace CheatTool
 
     #region Private Variables
 
-        private string name;
+        private string cellText;
+
+        private TMP_Text executionNumberText;
+
+        [SerializeField]
+        private Button button;
+
+    #endregion
+
+    #region Public Methods
+
+        public void SetExecutionNumber(int number)
+        {
+            executionNumberText.text = number.ToString();
+        }
 
     #endregion
     }
