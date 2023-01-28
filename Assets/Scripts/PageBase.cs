@@ -88,38 +88,40 @@ namespace CheatTool
         {
             SetNavigationOfSelects(selectables);
             SelectFirst();
-            searchField.onValueChanged.AddListener(str =>
-                                                   {
-                                                       cellsForSearch.Clear();
-                                                       foreach (var buttonCellModel in buttonCellModels)
-                                                       {
-                                                           var containKeyWord =
-                                                                   buttonCellModel.Name.Contains(
-                                                                           str , StringComparison.OrdinalIgnoreCase);
-                                                           bool active;
-                                                           if (containKeyWord)
-                                                           {
-                                                               cellsForSearch.Add(buttonCellModel);
-                                                               active = true;
-                                                           }
-                                                           else
-                                                           {
-                                                               active = false;
-                                                           }
-
-                                                           buttonCellModel.gameObject.SetActive(active);
-                                                       }
-
-                                                       var selectableList = cellsForSearch
-                                                                           .Select(model => model.Button as UnityEngine.UI.Selectable)
-                                                                           .ToList();
-                                                       if (selectableList.Count > 0)
-                                                       {
-                                                           selectableList.Insert(0 , searchField);
-                                                           SetNavigationOfSelects(selectableList);
-                                                       }
-                                                   });
+            searchField.onValueChanged.AddListener(OnSearchFieldChanged);
             // searchField.onEndEdit.AddListener(str => Debug.Log($"EndEdit: {str}"));
+        }
+
+        private void OnSearchFieldChanged(string str)
+        {
+            cellsForSearch.Clear();
+            foreach (var buttonCellModel in buttonCellModels)
+            {
+                var containKeyword =
+                        buttonCellModel.Name.Contains(
+                                str , StringComparison.OrdinalIgnoreCase);
+                bool active;
+                if (containKeyword)
+                {
+                    cellsForSearch.Add(buttonCellModel);
+                    active = true;
+                }
+                else
+                {
+                    active = false;
+                }
+
+                buttonCellModel.gameObject.SetActive(active);
+            }
+
+            var selectableList = cellsForSearch
+                                .Select(model => model.Button as UnityEngine.UI.Selectable)
+                                .ToList();
+            if (selectableList.Count > 0)
+            {
+                selectableList.Insert(0 , searchField);
+                SetNavigationOfSelects(selectableList);
+            }
         }
 
         private void Select(GameObject gameObject)
