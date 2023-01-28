@@ -13,13 +13,9 @@ namespace CheatTool
 {
     public class PageBase : MonoBehaviour
     {
-    #region Protected Variables
-
-        protected readonly List<Button> buttons = new List<Button>();
-
-    #endregion
-
     #region Private Variables
+
+        private readonly List<UnityEngine.UI.Selectable> selectsForSearch = new List<UnityEngine.UI.Selectable>();
 
         private readonly List<UnityEngine.UI.Selectable> selectables = new List<UnityEngine.UI.Selectable>();
 
@@ -60,7 +56,7 @@ namespace CheatTool
         {
             var button = Instantiate(buttonPrefab , content);
             button.name = $"Button - {cellText}";
-            buttons.Add(button);
+            selectsForSearch.Add(button);
 
             var tmpText = button.GetComponentInChildren<TMP_Text>();
             tmpText.text = cellText;
@@ -84,6 +80,23 @@ namespace CheatTool
         }
 
         private void InitializationAfter()
+        {
+            SetNavigationOfSelects();
+            SelectFirst();
+        }
+
+        private void Select(GameObject gameObject)
+        {
+            EventSystem.current.SetSelectedGameObject(gameObject);
+        }
+
+        private void SelectFirst()
+        {
+            var firstSelectable = selectables[0].gameObject;
+            Select(firstSelectable);
+        }
+
+        private void SetNavigationOfSelects()
         {
             var count = selectables.Count;
             for (var index = 0 ; index < count ; index++)
@@ -116,14 +129,6 @@ namespace CheatTool
 
                 selectableObj.navigation = new Navigation { mode = Navigation.Mode.Explicit , selectOnUp = up , selectOnDown = down };
             }
-
-            var firstElement = selectables[0].gameObject;
-            Select(firstElement);
-        }
-
-        private void Select(GameObject gameObject)
-        {
-            EventSystem.current.SetSelectedGameObject(gameObject);
         }
 
     #endregion
