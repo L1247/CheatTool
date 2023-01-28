@@ -23,6 +23,8 @@ namespace CheatTool
 
         private readonly List<UnityEngine.UI.Selectable> selectables = new List<UnityEngine.UI.Selectable>();
 
+        private TMP_InputField searchField;
+
         [SerializeField]
         private Button buttonPrefab;
 
@@ -41,6 +43,13 @@ namespace CheatTool
             AddSearchField("type something");
             Initialization();
             InitializationAfter();
+        }
+
+        protected virtual void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                if (EventSystem.current.currentSelectedGameObject != searchField.gameObject)
+                    Select(searchField.gameObject);
         }
 
     #endregion
@@ -68,10 +77,10 @@ namespace CheatTool
 
         private void AddSearchField(string placeholder)
         {
-            var inputField               = Instantiate(inputFieldPrefab , content);
-            var placeholderTextComponent = inputField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
+            searchField = Instantiate(inputFieldPrefab , content);
+            var placeholderTextComponent = searchField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
             placeholderTextComponent.text = placeholder;
-            selectables.Add(inputField);
+            selectables.Add(searchField);
         }
 
         private void InitializationAfter()
@@ -109,7 +118,12 @@ namespace CheatTool
             }
 
             var firstElement = selectables[0].gameObject;
-            EventSystem.current.SetSelectedGameObject(firstElement);
+            Select(firstElement);
+        }
+
+        private void Select(GameObject gameObject)
+        {
+            EventSystem.current.SetSelectedGameObject(gameObject);
         }
 
     #endregion

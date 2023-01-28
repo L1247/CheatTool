@@ -10,8 +10,9 @@ namespace CheatTool
     {
     #region Unity events
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 // foreach (var button in buttons)
