@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace DefaultNamespace
+namespace CheatTool
 {
     public class CheatTool : MonoBehaviour
     {
