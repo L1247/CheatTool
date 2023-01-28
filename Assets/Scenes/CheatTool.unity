@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 100
+    m_Top: 40
     m_Bottom: 0
   m_ChildAlignment: 1
   m_Spacing: 20
@@ -689,4 +689,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonPrefab: {fileID: 346910043714359054, guid: ed13881a773dc0f4996de14b4710c615, type: 3}
+  inputFieldPrefab: {fileID: 6689680877068645038, guid: 087b59da0cb7d9347834ac28a159c769, type: 3}
   content: {fileID: 1197394218}

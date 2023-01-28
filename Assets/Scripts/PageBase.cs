@@ -25,6 +25,9 @@ namespace CheatTool
         private Button buttonPrefab;
 
         [SerializeField]
+        private TMP_InputField inputFieldPrefab;
+
+        [SerializeField]
         private Transform content;
 
     #endregion
@@ -56,13 +59,18 @@ namespace CheatTool
             button.onClick.AddListener(() => clicked?.Invoke());
         }
 
-        protected void AddSearchField(string placeholder) { }
-
         protected virtual void Initialization() { }
 
     #endregion
 
     #region Private Methods
+
+        private void AddSearchField(string placeholder)
+        {
+            var inputField               = Instantiate(inputFieldPrefab , content);
+            var placeholderTextComponent = inputField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
+            placeholderTextComponent.text = placeholder;
+        }
 
         private void InitializationAfter()
         {
