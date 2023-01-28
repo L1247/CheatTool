@@ -1,5 +1,6 @@
 #region
 
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,12 +11,19 @@ namespace CheatTool
 {
     public class Selectable : MonoBehaviour , ISelectHandler , IDeselectHandler
     {
+    #region Public Variables
+
+        public Action<RectTransform> onSelect;
+
+    #endregion
+
     #region Private Variables
 
         private Outline outline;
 
-        private readonly Color normalOutlineColor   = new Color(0 , 0 , 0 , 0.5f);
-        private readonly Color selectedOutlineColor = new Color(0.85f , 0.07f , 0.21f , 1);
+        private readonly Color         normalOutlineColor   = new Color(0 , 0 , 0 , 0.5f);
+        private readonly Color         selectedOutlineColor = new Color(0.85f , 0.07f , 0.21f , 1);
+        private          RectTransform rectTransform;
 
     #endregion
 
@@ -25,6 +33,7 @@ namespace CheatTool
         {
             outline             = GetComponent<Outline>();
             outline.effectColor = normalOutlineColor;
+            rectTransform       = GetComponent<RectTransform>();
         }
 
     #endregion
@@ -41,6 +50,7 @@ namespace CheatTool
         {
             outline.effectColor    = selectedOutlineColor;
             outline.effectDistance = new Vector2(5 , 5);
+            onSelect?.Invoke(rectTransform);
         }
 
     #endregion

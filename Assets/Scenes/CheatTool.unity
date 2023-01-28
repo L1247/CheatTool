@@ -505,10 +505,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1197394218}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
-  m_Elasticity: 0.1
+  m_Elasticity: 0
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
@@ -691,3 +691,4 @@ MonoBehaviour:
   buttonPrefab: {fileID: 346910043714359054, guid: ed13881a773dc0f4996de14b4710c615, type: 3}
   inputFieldPrefab: {fileID: 6689680877068645038, guid: 087b59da0cb7d9347834ac28a159c769, type: 3}
   content: {fileID: 1197394218}
+  scrollRect: {fileID: 1539757215}

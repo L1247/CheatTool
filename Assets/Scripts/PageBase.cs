@@ -30,7 +30,10 @@ namespace CheatTool
         private TMP_InputField inputFieldPrefab;
 
         [SerializeField]
-        private Transform content;
+        private RectTransform content;
+
+        [SerializeField]
+        private ScrollRect scrollRect;
 
     #endregion
 
@@ -102,6 +105,13 @@ namespace CheatTool
             SetNavigationOfSelects(selectables);
             SelectFirst();
             searchField.onValueChanged.AddListener(OnSearchFieldChanged);
+            foreach (var cellModel in buttonCellModels) cellModel.GetComponent<Selectable>().onSelect += OnButtonSelected;
+        }
+
+        private void OnButtonSelected(RectTransform selectedButton)
+        {
+            Debug.Log($"{selectedButton}");
+            SnapTo(selectedButton);
         }
 
         private void OnSearchFieldChanged(string str)
@@ -182,6 +192,22 @@ namespace CheatTool
 
                 selectableObj.navigation = new Navigation { mode = Navigation.Mode.Explicit , selectOnUp = up , selectOnDown = down };
             }
+        }
+
+        private void SnapTo(RectTransform target)
+        {
+            var objPosition  = (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+            var scrollHeight = scrollRect.GetComponent<RectTransform>().rect.height;
+            var objHeight    = target.rect.height;
+
+            var padding = 100;
+            if (objPosition.y > scrollHeight / 2)
+                content.localPosition = new Vector2(content.localPosition.x ,
+                                                    content.localPosition.y - objHeight - padding);
+
+            if (objPosition.y < -scrollHeight / 2)
+                content.localPosition = new Vector2(content.localPosition.x ,
+                                                    content.localPosition.y + objHeight + padding);
         }
 
     #endregion
