@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -85,14 +86,16 @@ namespace CheatTool
 
         private void InitializationAfter()
         {
-            SetNavigationOfSelects();
+            SetNavigationOfSelects(selectables);
             SelectFirst();
             searchField.onValueChanged.AddListener(str =>
                                                    {
                                                        cellsForSearch.Clear();
                                                        foreach (var buttonCellModel in buttonCellModels)
                                                        {
-                                                           var  containKeyWord = buttonCellModel.Name.Contains(str);
+                                                           var containKeyWord =
+                                                                   buttonCellModel.Name.Contains(
+                                                                           str , StringComparison.OrdinalIgnoreCase);
                                                            bool active;
                                                            if (containKeyWord)
                                                            {
@@ -107,9 +110,16 @@ namespace CheatTool
                                                            buttonCellModel.gameObject.SetActive(active);
                                                        }
 
-                                                       Debug.Log($"ValueChanged: {str}");
+                                                       var selectableList = cellsForSearch
+                                                                           .Select(model => model.Button as UnityEngine.UI.Selectable)
+                                                                           .ToList();
+                                                       if (selectableList.Count > 0)
+                                                       {
+                                                           selectableList.Insert(0 , searchField);
+                                                           SetNavigationOfSelects(selectableList);
+                                                       }
                                                    });
-            searchField.onEndEdit.AddListener(str => Debug.Log($"EndEdit: {str}"));
+            // searchField.onEndEdit.AddListener(str => Debug.Log($"EndEdit: {str}"));
         }
 
         private void Select(GameObject gameObject)
@@ -123,16 +133,16 @@ namespace CheatTool
             Select(firstSelectable);
         }
 
-        private void SetNavigationOfSelects()
+        private void SetNavigationOfSelects(List<UnityEngine.UI.Selectable> selectableList)
         {
-            var count = selectables.Count;
+            var count = selectableList.Count;
             for (var index = 0 ; index < count ; index++)
             {
                 int upIndex;
                 int downIndex;
 
-                var selectableObj = selectables[index];
-                selectableObj.gameObject.AddComponent<Selectable>();
+                var selectableObj = selectableList[index];
+                if (selectableObj.gameObject.GetComponent<Selectable>() is null) selectableObj.gameObject.AddComponent<Selectable>();
                 var isFirstCell = index == 0;
                 var isLastCell  = index == count - 1;
                 if (isFirstCell)
@@ -151,8 +161,8 @@ namespace CheatTool
                     downIndex = index + 1;
                 }
 
-                var up   = selectables[upIndex];
-                var down = selectables[downIndex];
+                var up   = selectableList[upIndex];
+                var down = selectableList[downIndex];
 
                 selectableObj.navigation = new Navigation { mode = Navigation.Mode.Explicit , selectOnUp = up , selectOnDown = down };
             }
