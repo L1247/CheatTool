@@ -47,7 +47,13 @@ namespace CheatTool
         {
             if (Input.GetKeyDown(KeyCode.Escape))
                 if (EventSystem.current.currentSelectedGameObject != searchField.gameObject)
-                    Select(searchField.gameObject);
+                    Select(searchField);
+            for (var i = (int)KeyCode.Alpha1 ; i < (int)KeyCode.Alpha9 ; ++i)
+                if (Input.GetKeyDown((KeyCode)i))
+                {
+                    var index = i - (int)KeyCode.Alpha1;
+                    ExecuteButtonOfSelectable(index);
+                }
         }
 
     #endregion
@@ -84,6 +90,13 @@ namespace CheatTool
             selectables.Add(searchField);
         }
 
+        private void ExecuteButtonOfSelectable(int index)
+        {
+            var selectable = cellsForSearch[index].Button;
+            Select(selectable);
+            ExecuteEvents.Execute(selectable.gameObject , new BaseEventData(EventSystem.current) , ExecuteEvents.submitHandler);
+        }
+
         private void InitializationAfter()
         {
             SetNavigationOfSelects(selectables);
@@ -94,6 +107,7 @@ namespace CheatTool
 
         private void OnSearchFieldChanged(string str)
         {
+            Debug.Log($"OnSearchFieldChanged: {str}");
             cellsForSearch.Clear();
             foreach (var buttonCellModel in buttonCellModels)
             {
@@ -124,14 +138,14 @@ namespace CheatTool
             }
         }
 
-        private void Select(GameObject gameObject)
+        private void Select(UnityEngine.UI.Selectable selectable)
         {
-            EventSystem.current.SetSelectedGameObject(gameObject);
+            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
         }
 
         private void SelectFirst()
         {
-            var firstSelectable = selectables[0].gameObject;
+            var firstSelectable = selectables[0];
             Select(firstSelectable);
         }
 
