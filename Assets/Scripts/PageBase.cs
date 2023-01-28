@@ -15,7 +15,8 @@ namespace CheatTool
     {
     #region Private Variables
 
-        private readonly List<UnityEngine.UI.Selectable> selectsForSearch = new List<UnityEngine.UI.Selectable>();
+        private readonly List<ButtonCellModel> buttonCellModels = new List<ButtonCellModel>();
+        private readonly List<ButtonCellModel> cellsForSearch   = new List<ButtonCellModel>();
 
         private readonly List<UnityEngine.UI.Selectable> selectables = new List<UnityEngine.UI.Selectable>();
 
@@ -54,9 +55,12 @@ namespace CheatTool
 
         protected void AddButton(string cellText , Action clicked = null)
         {
-            var button = Instantiate(buttonPrefab , content);
-            button.name = $"Button - {cellText}";
-            selectsForSearch.Add(button);
+            var button          = Instantiate(buttonPrefab , content);
+            var buttonCellModel = button.gameObject.AddComponent<ButtonCellModel>();
+            buttonCellModel.Button = button;
+            buttonCellModel.Name   = cellText;
+
+            buttonCellModels.Add(buttonCellModel);
 
             var tmpText = button.GetComponentInChildren<TMP_Text>();
             tmpText.text = cellText;
@@ -83,6 +87,26 @@ namespace CheatTool
         {
             SetNavigationOfSelects();
             SelectFirst();
+            searchField.onValueChanged.AddListener(str =>
+                                                   {
+                                                       cellsForSearch.Clear();
+                                                       foreach (var buttonCellModel in buttonCellModels)
+                                                       {
+                                                           var containKeyWord = buttonCellModel.Name.Contains(str);
+                                                           if (containKeyWord)
+                                                           {
+                                                               cellsForSearch.Add(buttonCellModel);
+                                                               buttonCellModel.gameObject.SetActive(true);
+                                                           }
+                                                           else
+                                                           {
+                                                               buttonCellModel.gameObject.SetActive(false);
+                                                           }
+                                                       }
+
+                                                       Debug.Log($"ValueChanged: {str}");
+                                                   });
+            searchField.onEndEdit.AddListener(str => Debug.Log($"EndEdit: {str}"));
         }
 
         private void Select(GameObject gameObject)
