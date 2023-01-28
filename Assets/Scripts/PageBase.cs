@@ -29,6 +29,17 @@ namespace CheatTool
 
     #endregion
 
+    #region Unity events
+
+        protected virtual void Start()
+        {
+            AddSearchField("type something");
+            Initialization();
+            InitializationAfter();
+        }
+
+    #endregion
+
     #region Protected Methods
 
         protected void AddButton(string cellText , Action clicked = null)
@@ -45,9 +56,16 @@ namespace CheatTool
             button.onClick.AddListener(() => clicked?.Invoke());
         }
 
-        protected virtual void Initialization()
+        protected void AddSearchField(string placeholder) { }
+
+        protected virtual void Initialization() { }
+
+    #endregion
+
+    #region Private Methods
+
+        private void InitializationAfter()
         {
-            Debug.Log("Initialization");
             var buttonCount = buttons.Count;
             for (var index = 0 ; index < buttonCount ; index++)
             {
