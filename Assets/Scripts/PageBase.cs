@@ -21,6 +21,8 @@ namespace CheatTool
 
     #region Private Variables
 
+        private readonly List<UnityEngine.UI.Selectable> selectables = new List<UnityEngine.UI.Selectable>();
+
         [SerializeField]
         private Button buttonPrefab;
 
@@ -49,14 +51,13 @@ namespace CheatTool
         {
             var button = Instantiate(buttonPrefab , content);
             button.name = $"Button - {cellText}";
-            button.gameObject.AddComponent<ButtonCellModel>();
             buttons.Add(button);
-            if (buttons.Count == 1) EventSystem.current.SetSelectedGameObject(button.gameObject);
 
             var tmpText = button.GetComponentInChildren<TMP_Text>();
             tmpText.text = cellText;
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => clicked?.Invoke());
+            selectables.Add(button);
         }
 
         protected virtual void Initialization() { }
@@ -70,22 +71,24 @@ namespace CheatTool
             var inputField               = Instantiate(inputFieldPrefab , content);
             var placeholderTextComponent = inputField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
             placeholderTextComponent.text = placeholder;
+            selectables.Add(inputField);
         }
 
         private void InitializationAfter()
         {
-            var buttonCount = buttons.Count;
-            for (var index = 0 ; index < buttonCount ; index++)
+            var count = selectables.Count;
+            for (var index = 0 ; index < count ; index++)
             {
                 int upIndex;
                 int downIndex;
 
-                var button      = buttons[index];
+                var selectableObj = selectables[index];
+                selectableObj.gameObject.AddComponent<Selectable>();
                 var isFirstCell = index == 0;
-                var isLastCell  = index == buttonCount - 1;
+                var isLastCell  = index == count - 1;
                 if (isFirstCell)
                 {
-                    upIndex   = buttonCount - 1;
+                    upIndex   = count - 1;
                     downIndex = index + 1;
                 }
                 else if (isLastCell)
@@ -99,11 +102,14 @@ namespace CheatTool
                     downIndex = index + 1;
                 }
 
-                var up   = buttons[upIndex];
-                var down = buttons[downIndex];
+                var up   = selectables[upIndex];
+                var down = selectables[downIndex];
 
-                button.navigation = new Navigation { mode = Navigation.Mode.Explicit , selectOnUp = up , selectOnDown = down };
+                selectableObj.navigation = new Navigation { mode = Navigation.Mode.Explicit , selectOnUp = up , selectOnDown = down };
             }
+
+            var firstElement = selectables[0].gameObject;
+            EventSystem.current.SetSelectedGameObject(firstElement);
         }
 
     #endregion

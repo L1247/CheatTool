@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace CheatTool
 {
-    public class ButtonCellModel : MonoBehaviour , ISelectHandler , IDeselectHandler
+    public class Selectable : MonoBehaviour , ISelectHandler , IDeselectHandler
     {
     #region Private Variables
 
