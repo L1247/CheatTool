@@ -92,16 +92,19 @@ namespace CheatTool
                                                        cellsForSearch.Clear();
                                                        foreach (var buttonCellModel in buttonCellModels)
                                                        {
-                                                           var containKeyWord = buttonCellModel.Name.Contains(str);
+                                                           var  containKeyWord = buttonCellModel.Name.Contains(str);
+                                                           bool active;
                                                            if (containKeyWord)
                                                            {
                                                                cellsForSearch.Add(buttonCellModel);
-                                                               buttonCellModel.gameObject.SetActive(true);
+                                                               active = true;
                                                            }
                                                            else
                                                            {
-                                                               buttonCellModel.gameObject.SetActive(false);
+                                                               active = false;
                                                            }
+
+                                                           buttonCellModel.gameObject.SetActive(active);
                                                        }
 
                                                        Debug.Log($"ValueChanged: {str}");
