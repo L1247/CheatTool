@@ -23,6 +23,8 @@ namespace rStart.UnityCheatTool
 
         private TMP_InputField searchField;
 
+        private CanvasGroup canvasGroup;
+
         [SerializeField]
         private Button buttonPrefab;
 
@@ -44,6 +46,8 @@ namespace rStart.UnityCheatTool
 
         protected virtual void Start()
         {
+            canvasGroup       = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0;
             AddSearchField("type command");
             Initialization();
             InitializationAfter();
@@ -111,8 +115,16 @@ namespace rStart.UnityCheatTool
         private void HandleGotoSearchField()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
-                if (EventSystem.current.currentSelectedGameObject != searchField.gameObject)
-                    Select(searchField);
+            {
+                if (canvasGroup.alpha == 0)
+                {
+                    canvasGroup.alpha = 1;
+                    return;
+                }
+
+                if (EventSystem.current.currentSelectedGameObject != searchField.gameObject) Select(searchField);
+                else canvasGroup.alpha = 0;
+            }
         }
 
         private void InitializationAfter()
