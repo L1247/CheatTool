@@ -51,6 +51,8 @@ namespace CheatTool
             if (Input.GetKeyDown(KeyCode.Escape))
                 if (EventSystem.current.currentSelectedGameObject != searchField.gameObject)
                     Select(searchField);
+
+            // Debug.Log($"{searchField.isFocused}");
             for (var i = (int)KeyCode.Alpha1 ; i < (int)KeyCode.Alpha9 ; ++i)
                 if (Input.GetKeyDown((KeyCode)i))
                 {
@@ -105,13 +107,7 @@ namespace CheatTool
             SetNavigationOfSelects(selectables);
             SelectFirst();
             searchField.onValueChanged.AddListener(OnSearchFieldChanged);
-            foreach (var cellModel in buttonCellModels) cellModel.GetComponent<Selectable>().onSelect += OnButtonSelected;
-        }
-
-        private void OnButtonSelected(RectTransform selectedButton)
-        {
-            Debug.Log($"{selectedButton}");
-            SnapTo(selectedButton);
+            foreach (var cellModel in selectables) cellModel.GetComponent<Selectable>().onSelect += OnSelected;
         }
 
         private void OnSearchFieldChanged(string str)
@@ -144,6 +140,11 @@ namespace CheatTool
                 selectableList.Insert(0 , searchField);
                 SetNavigationOfSelects(selectableList);
             }
+        }
+
+        private void OnSelected(RectTransform selectable)
+        {
+            SnapTo(selectable);
         }
 
         private void Select(UnityEngine.UI.Selectable selectable)
