@@ -52,7 +52,8 @@ namespace rStart.UnityCheatTool
 
         public void SetExecutionNumber(int number)
         {
-            executionNumberText.text = number.ToString();
+            var numberText = number == 0 ? string.Empty : number.ToString();
+            executionNumberText.text = numberText;
         }
 
     #endregion

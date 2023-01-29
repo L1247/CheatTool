@@ -218,7 +218,9 @@ namespace rStart.UnityCheatTool
                     downIndex = index + 1;
                 }
 
-                if (selectableObj.TryGetComponent<ButtonCellModel>(out var buttonCellModel)) buttonCellModel.SetExecutionNumber(index);
+                var executionNumber = index > 9 ? 0 : index;
+                if (selectableObj.TryGetComponent<ButtonCellModel>(out var buttonCellModel))
+                    buttonCellModel.SetExecutionNumber(executionNumber);
 
                 var up   = selectableList[upIndex];
                 var down = selectableList[downIndex];
