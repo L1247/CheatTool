@@ -48,17 +48,8 @@ namespace CheatTool
 
         protected virtual void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-                if (EventSystem.current.currentSelectedGameObject != searchField.gameObject)
-                    Select(searchField);
-
-            // Debug.Log($"{searchField.isFocused}");
-            for (var i = (int)KeyCode.Alpha1 ; i < (int)KeyCode.Alpha9 ; ++i)
-                if (Input.GetKeyDown((KeyCode)i))
-                {
-                    var index = i - (int)KeyCode.Alpha1;
-                    ExecuteButtonOfSelectable(index);
-                }
+            HandleGotoSearchField();
+            HandleExecuteButton();
         }
 
     #endregion
@@ -100,6 +91,24 @@ namespace CheatTool
             var selectable = cellsForSearch[index].Button;
             Select(selectable);
             ExecuteEvents.Execute(selectable.gameObject , new BaseEventData(EventSystem.current) , ExecuteEvents.submitHandler);
+        }
+
+        private void HandleExecuteButton()
+        {
+            if (searchField.isFocused == false)
+                for (var i = (int)KeyCode.Alpha1 ; i < (int)KeyCode.Alpha9 ; ++i)
+                    if (Input.GetKeyDown((KeyCode)i))
+                    {
+                        var index = i - (int)KeyCode.Alpha1;
+                        ExecuteButtonOfSelectable(index);
+                    }
+        }
+
+        private void HandleGotoSearchField()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                if (EventSystem.current.currentSelectedGameObject != searchField.gameObject)
+                    Select(searchField);
         }
 
         private void InitializationAfter()
@@ -197,6 +206,7 @@ namespace CheatTool
 
         private void SnapTo(RectTransform target)
         {
+            Debug.Log($"SnapTo: {target}");
             var objPosition  = (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
             var scrollHeight = scrollRect.GetComponent<RectTransform>().rect.height;
             var objHeight    = target.rect.height;
