@@ -40,6 +40,9 @@ namespace rStart.UnityCheatTool
         [SerializeField]
         private ScrollRect scrollRect;
 
+        [SerializeField]
+        private bool openOnStart;
+
     #endregion
 
     #region Unity events
@@ -47,7 +50,7 @@ namespace rStart.UnityCheatTool
         protected virtual void Start()
         {
             canvasGroup       = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0;
+            canvasGroup.alpha = openOnStart ? 1 : 0;
             AddSearchField("type command");
             Initialization();
             InitializationAfter();
@@ -226,19 +229,15 @@ namespace rStart.UnityCheatTool
 
         private void SnapTo(RectTransform target)
         {
-            // Debug.Log($"SnapTo: {target}");
-            var objPosition  = (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
-            var scrollHeight = scrollRect.GetComponent<RectTransform>().rect.height;
-            var objHeight    = target.rect.height;
+            var buttonCellModel = target.GetComponent<ButtonCellModel>();
+            var findIndex       = cellsForSearch.FindIndex(model => model == buttonCellModel);
+            var objHeight       = target.rect.height;
 
-            var padding = 100;
-            if (objPosition.y > scrollHeight / 2)
-                content.localPosition = new Vector2(content.localPosition.x ,
-                                                    content.localPosition.y - objHeight - padding);
+            const int padding              = 100;
+            var       localPositionY       = findIndex * objHeight - padding;
+            var       contentLocalPosition = new Vector2(content.localPosition.x , localPositionY);
 
-            if (objPosition.y < -scrollHeight / 2)
-                content.localPosition = new Vector2(content.localPosition.x ,
-                                                    content.localPosition.y + objHeight + padding);
+            content.localPosition = contentLocalPosition;
         }
 
     #endregion

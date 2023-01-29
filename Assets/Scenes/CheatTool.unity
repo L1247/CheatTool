@@ -145,6 +145,7 @@ MonoBehaviour:
   content: {fileID: 1306479896}
   descriptionPanel: {fileID: 2044772205}
   scrollRect: {fileID: 606193848}
+  openOnStart: 1
 --- !u!1 &192448912
 GameObject:
   m_ObjectHideFlags: 0
