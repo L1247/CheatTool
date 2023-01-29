@@ -33,6 +33,7 @@ namespace CheatTool
                 tmpText.text = value;
             }
         }
+        public string Description { get; set; }
 
     #endregion
 

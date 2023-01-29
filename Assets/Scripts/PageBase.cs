@@ -59,12 +59,13 @@ namespace CheatTool
 
     #region Protected Methods
 
-        protected void AddButton(string cellText , Action clicked = null)
+        protected void AddButton(string cellText , string description = "" , Action clicked = null)
         {
             var button          = Instantiate(buttonPrefab , content);
             var buttonCellModel = button.gameObject.AddComponent<ButtonCellModel>();
-            buttonCellModel.Button   = button;
-            buttonCellModel.CellText = cellText;
+            buttonCellModel.Button      = button;
+            buttonCellModel.CellText    = cellText;
+            buttonCellModel.Description = description;
 
             buttonCellModels.Add(buttonCellModel);
 
@@ -156,6 +157,8 @@ namespace CheatTool
 
         private void OnSelected(RectTransform selectable)
         {
+            if (selectable.TryGetComponent(out ButtonCellModel cellModel)) descriptionPanel.SetDescriptionText(cellModel.Description);
+
             SnapTo(selectable);
         }
 

@@ -24,5 +24,14 @@ namespace CheatTool
         }
 
     #endregion
+
+    #region Public Methods
+
+        public void SetDescriptionText(string description)
+        {
+            descriptionText.text = description;
+        }
+
+    #endregion
     }
 }
