@@ -1,5 +1,5 @@
 {
-  "name": "CheatTool",
+  "name": "rStart.UnityCheatTool",
   "rootNamespace": "",
   "references": [
     "Unity.TextMeshPro"

@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace CheatTool
+namespace rStart.UnityCheatTool
 {
     public class DebugPage : PageBase
     {

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 #endregion
 
-namespace CheatTool
+namespace rStart.UnityCheatTool
 {
     public class PageBase : MonoBehaviour
     {
