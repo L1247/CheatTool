@@ -102,8 +102,8 @@ namespace CheatTool
                 for (var i = (int)KeyCode.Alpha1 ; i < (int)KeyCode.Alpha9 ; ++i)
                     if (Input.GetKeyDown((KeyCode)i))
                     {
-                        var index = i - (int)KeyCode.Alpha1;
-                        ExecuteButtonOfSelectable(index);
+                        var selectableIndex = i - (int)KeyCode.Alpha1;
+                        ExecuteButtonOfSelectable(selectableIndex);
                     }
         }
 
