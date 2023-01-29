@@ -157,7 +157,9 @@ namespace CheatTool
 
         private void OnSelected(RectTransform selectable)
         {
-            if (selectable.TryGetComponent(out ButtonCellModel cellModel)) descriptionPanel.SetDescriptionText(cellModel.Description);
+            var description                                                            = string.Empty;
+            if (selectable.TryGetComponent(out ButtonCellModel cellModel)) description = cellModel.Description;
+            descriptionPanel.SetDescriptionText(description);
 
             SnapTo(selectable);
         }

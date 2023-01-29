@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5846022197653565842}
   - component: {fileID: 5846022197653565843}
   - component: {fileID: 5846022197653565841}
+  - component: {fileID: 2770270511176526039}
   m_Layer: 5
   m_Name: Description Panel
   m_TagString: Untagged
@@ -91,6 +92,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   descriptionText: {fileID: 5846022197829311796}
+  canvasGroup: {fileID: 2770270511176526039}
+--- !u!225 &2770270511176526039
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5846022197653565845}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &5846022197829311798
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd123123213sadsadasdd
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5d81cddab46e77a40b746ac33d2e2999, type: 2}
   m_sharedMaterial: {fileID: -2571053872700353203, guid: 5d81cddab46e77a40b746ac33d2e2999, type: 2}
@@ -516,7 +530,6 @@ GameObject:
   - component: {fileID: 5846022199021450656}
   - component: {fileID: 5846022199021450657}
   - component: {fileID: 5846022199021450685}
-  - component: {fileID: 5846022199021450684}
   m_Layer: 5
   m_Name: CheatToolCanvas
   m_TagString: Untagged
@@ -539,7 +552,7 @@ RectTransform:
   - {fileID: 5846022198456256145}
   - {fileID: 5846022197653565844}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -566,7 +579,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9999
   m_TargetDisplay: 0
 --- !u!114 &5846022199021450656
 MonoBehaviour:
@@ -603,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
+  m_IgnoreReversedGraphics: 0
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
@@ -620,20 +633,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d037c81023324aeca737ab7e8cd4a5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5846022199021450684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5846022199021450658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05030045d780464995e0d139c5209d6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 346910043714359054, guid: ed13881a773dc0f4996de14b4710c615, type: 3}
-  inputFieldPrefab: {fileID: 6689680877068645038, guid: 087b59da0cb7d9347834ac28a159c769, type: 3}
-  content: {fileID: 5846022198666500901}
-  descriptionPanel: {fileID: 5846022197653565841}
-  scrollRect: {fileID: 5846022198456256144}
