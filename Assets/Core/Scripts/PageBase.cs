@@ -107,7 +107,7 @@ namespace rStart.UnityCheatTool
         private void HandleExecuteButton()
         {
             if (searchField.isFocused == false)
-                for (var i = (int)KeyCode.Alpha1 ; i < (int)KeyCode.Alpha9 ; ++i)
+                for (var i = (int)KeyCode.Alpha1 ; i <= (int)KeyCode.Alpha9 ; ++i)
                     if (Input.GetKeyDown((KeyCode)i))
                     {
                         var selectableIndex = i - (int)KeyCode.Alpha1;
