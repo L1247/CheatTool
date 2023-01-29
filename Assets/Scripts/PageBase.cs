@@ -33,6 +33,9 @@ namespace CheatTool
         private RectTransform content;
 
         [SerializeField]
+        private DescriptionPanel descriptionPanel;
+
+        [SerializeField]
         private ScrollRect scrollRect;
 
     #endregion
@@ -206,7 +209,7 @@ namespace CheatTool
 
         private void SnapTo(RectTransform target)
         {
-            Debug.Log($"SnapTo: {target}");
+            // Debug.Log($"SnapTo: {target}");
             var objPosition  = (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
             var scrollHeight = scrollRect.GetComponent<RectTransform>().rect.height;
             var objHeight    = target.rect.height;
