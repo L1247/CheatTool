@@ -41,7 +41,7 @@ namespace CheatTool
 
         protected virtual void Start()
         {
-            AddSearchField("type something");
+            AddSearchField("type command");
             Initialization();
             InitializationAfter();
         }
