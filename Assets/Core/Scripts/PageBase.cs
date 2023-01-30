@@ -38,7 +38,7 @@ namespace rStart.UnityCheatTool
         private DescriptionPanel descriptionPanel;
 
         [SerializeField]
-        private ScrollRect scrollRect;
+        private Button backdrop;
 
         [SerializeField]
         private bool openOnStart;
@@ -51,6 +51,7 @@ namespace rStart.UnityCheatTool
         {
             canvasGroup       = GetComponent<CanvasGroup>();
             canvasGroup.alpha = openOnStart ? 1 : 0;
+            backdrop.onClick.AddListener(() => SetPageVisible(false));
             AddSearchField("type command");
             Initialization();
             InitializationAfter();
@@ -119,14 +120,14 @@ namespace rStart.UnityCheatTool
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (canvasGroup.alpha == 0)
+                if (IsPageDisable())
                 {
-                    canvasGroup.alpha = 1;
+                    SetPageVisible(true);
                     return;
                 }
 
                 if (EventSystem.current.currentSelectedGameObject != searchField.gameObject) Select(searchField);
-                else canvasGroup.alpha = 0;
+                else SetPageVisible(false);
             }
         }
 
@@ -136,6 +137,11 @@ namespace rStart.UnityCheatTool
             SelectFirst();
             searchField.onValueChanged.AddListener(OnSearchFieldChanged);
             foreach (var cellModel in selectables) cellModel.GetComponent<Selectable>().onSelect += OnSelected;
+        }
+
+        private bool IsPageDisable()
+        {
+            return canvasGroup.alpha == 0;
         }
 
         private void OnSearchFieldChanged(string str)
@@ -227,6 +233,11 @@ namespace rStart.UnityCheatTool
 
                 selectableObj.navigation = new Navigation { mode = Navigation.Mode.Explicit , selectOnUp = up , selectOnDown = down };
             }
+        }
+
+        private void SetPageVisible(bool visible)
+        {
+            canvasGroup.alpha = visible ? 1 : 0;
         }
 
         private void SnapTo(RectTransform target)

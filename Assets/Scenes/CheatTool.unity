@@ -144,7 +144,7 @@ MonoBehaviour:
   inputFieldPrefab: {fileID: 6689680877068645038, guid: 087b59da0cb7d9347834ac28a159c769, type: 3}
   content: {fileID: 1306479896}
   descriptionPanel: {fileID: 2044772205}
-  scrollRect: {fileID: 606193848}
+  backdrop: {fileID: 306668336}
   openOnStart: 1
 --- !u!1 &192448912
 GameObject:
@@ -214,6 +214,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &306668336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 81915230852773090, guid: 9830a88ce27bce649b03d75ce79a964d, type: 3}
+  m_PrefabInstance: {fileID: 5846022197580026383}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,17 +317,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &606193848 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5846022198456256144, guid: 9830a88ce27bce649b03d75ce79a964d, type: 3}
-  m_PrefabInstance: {fileID: 5846022197580026383}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1306479896 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5846022198666500901, guid: 9830a88ce27bce649b03d75ce79a964d, type: 3}
