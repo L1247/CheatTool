@@ -25,23 +25,13 @@ namespace rStart.UnityCheatTool
 
         private CanvasGroup canvasGroup;
 
-        [SerializeField]
-        private Button buttonPrefab;
+        private GameObject buttonPrefab;
 
-        [SerializeField]
-        private TMP_InputField inputFieldPrefab;
+        private GameObject inputFieldPrefab;
 
-        [SerializeField]
         private RectTransform content;
 
-        [SerializeField]
-        private DescriptionPanel descriptionPanel;
-
-        [SerializeField]
-        private Button backdrop;
-
-        [SerializeField]
-        private bool openOnStart;
+        private PrefabContainer prefabContainer;
 
     #endregion
 
@@ -49,9 +39,10 @@ namespace rStart.UnityCheatTool
 
         protected virtual void Start()
         {
-            canvasGroup       = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = openOnStart ? 1 : 0;
-            backdrop.onClick.AddListener(() => SetPageVisible(false));
+            prefabContainer  = GetComponent<PrefabContainer>();
+            inputFieldPrefab = prefabContainer.GetPrefab("InputField");
+            content          = transform.parent.GetComponent<RectTransform>();
+            buttonPrefab     = prefabContainer.GetPrefab("Button");
             AddSearchField("type command");
             Initialization();
             InitializationAfter();
@@ -69,7 +60,7 @@ namespace rStart.UnityCheatTool
 
         protected void AddButton(string cellText , string description = "" , Action clicked = null)
         {
-            var button          = Instantiate(buttonPrefab , content);
+            var button          = Instantiate(buttonPrefab , content).GetComponent<Button>();
             var buttonCellModel = button.gameObject.AddComponent<ButtonCellModel>();
             buttonCellModel.Button      = button;
             buttonCellModel.CellText    = cellText;
@@ -91,7 +82,8 @@ namespace rStart.UnityCheatTool
 
         private void AddSearchField(string placeholder)
         {
-            searchField = Instantiate(inputFieldPrefab , content);
+            var searchFieldInstance = Instantiate(inputFieldPrefab , content);
+            searchField = searchFieldInstance.GetComponent<TMP_InputField>();
             var placeholderTextComponent = searchField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
             placeholderTextComponent.text = placeholder;
             selectables.Add(searchField);
@@ -120,7 +112,7 @@ namespace rStart.UnityCheatTool
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (IsPageDisable())
+                if (CheatTool.Instance.IsPageDisable())
                 {
                     SetPageVisible(true);
                     return;
@@ -137,11 +129,6 @@ namespace rStart.UnityCheatTool
             SelectFirst();
             searchField.onValueChanged.AddListener(OnSearchFieldChanged);
             foreach (var cellModel in selectables) cellModel.GetComponent<Selectable>().onSelect += OnSelected;
-        }
-
-        private bool IsPageDisable()
-        {
-            return canvasGroup.alpha == 0;
         }
 
         private void OnSearchFieldChanged(string str)
@@ -180,7 +167,7 @@ namespace rStart.UnityCheatTool
         {
             var description                                                            = string.Empty;
             if (selectable.TryGetComponent(out ButtonCellModel cellModel)) description = cellModel.Description;
-            descriptionPanel.SetDescriptionText(description);
+            CheatTool.Instance.SetDescriptionText(description);
 
             SnapTo(selectable);
         }
@@ -237,7 +224,7 @@ namespace rStart.UnityCheatTool
 
         private void SetPageVisible(bool visible)
         {
-            canvasGroup.alpha = visible ? 1 : 0;
+            CheatTool.Instance.SetPageVisible(visible);
             if (visible) SelectFirst();
         }
 

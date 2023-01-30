@@ -966,6 +966,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d037c81023324aeca737ab7e8cd4a5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backdrop: {fileID: 81915230852773090}
+  pagePrefab: {fileID: 7489013214943767001, guid: 69efc09d87606b143a46faef0d5a8c9e, type: 3}
+  content: {fileID: 5846022198666500901}
+  openOnStart: 0
+  descriptionPanel: {fileID: 5846022197653565841}
 --- !u!225 &2796783483118663497
 CanvasGroup:
   m_ObjectHideFlags: 0
