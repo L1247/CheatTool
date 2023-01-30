@@ -238,6 +238,7 @@ namespace rStart.UnityCheatTool
         private void SetPageVisible(bool visible)
         {
             canvasGroup.alpha = visible ? 1 : 0;
+            if (visible) SelectFirst();
         }
 
         private void SnapTo(RectTransform target)
