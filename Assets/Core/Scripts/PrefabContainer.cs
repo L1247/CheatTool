@@ -7,7 +7,7 @@ using UnityEngine;
 
 #endregion
 
-namespace rStart.UnityCheatTool
+namespace rStart.UnityCommandPanel
 {
     public class PrefabContainer : MonoBehaviour
     {

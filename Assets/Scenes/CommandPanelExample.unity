@@ -350,7 +350,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5846022199021450658, guid: 9830a88ce27bce649b03d75ce79a964d, type: 3}
       propertyPath: m_Name
-      value: CheatToolCanvas
+      value: CommandPanelCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 5846022199021450686, guid: 9830a88ce27bce649b03d75ce79a964d, type: 3}
       propertyPath: m_Pivot.x

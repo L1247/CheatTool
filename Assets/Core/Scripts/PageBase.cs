@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 #endregion
 
-namespace rStart.UnityCheatTool
+namespace rStart.UnityCommandPanel
 {
     public class PageBase : MonoBehaviour
     {
@@ -112,7 +112,7 @@ namespace rStart.UnityCheatTool
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (CheatTool.Instance.IsPageDisable())
+                if (CommandPanel.Instance.IsPageDisable())
                 {
                     SetPageVisible(true);
                     return;
@@ -167,7 +167,7 @@ namespace rStart.UnityCheatTool
         {
             var description                                                            = string.Empty;
             if (selectable.TryGetComponent(out ButtonCellModel cellModel)) description = cellModel.Description;
-            CheatTool.Instance.SetDescriptionText(description);
+            CommandPanel.Instance.SetDescriptionText(description);
 
             SnapTo(selectable);
         }
@@ -224,7 +224,7 @@ namespace rStart.UnityCheatTool
 
         private void SetPageVisible(bool visible)
         {
-            CheatTool.Instance.SetPageVisible(visible);
+            CommandPanel.Instance.SetPageVisible(visible);
             if (visible) SelectFirst();
         }
 

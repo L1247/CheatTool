@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 5846022199021450685}
   - component: {fileID: 2796783483118663497}
   m_Layer: 5
-  m_Name: CheatToolCanvas
+  m_Name: CommandPanelCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

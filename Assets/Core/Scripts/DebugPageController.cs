@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace rStart.UnityCheatTool
+namespace rStart.UnityCommandPanel
 {
     public class DebugPageController : MonoBehaviour
     {
@@ -12,7 +12,7 @@ namespace rStart.UnityCheatTool
 
         private void Start()
         {
-            CheatTool.Instance.AddPage<DebugPage>();
+            CommandPanel.Instance.AddPage<DebugPage>();
         }
 
     #endregion

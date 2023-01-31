@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 #endregion
 
-namespace rStart.UnityCheatTool
+namespace rStart.UnityCommandPanel
 {
     public class ButtonCellModel : MonoBehaviour
     {

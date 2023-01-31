@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 #endregion
 
-namespace rStart.UnityCheatTool
+namespace rStart.UnityCommandPanel
 {
-    public class CheatTool : MonoBehaviour
+    public class CommandPanel : MonoBehaviour
     {
     #region Public Variables
 
-        public static CheatTool Instance { get; private set; }
+        public static CommandPanel Instance { get; private set; }
 
     #endregion
 
