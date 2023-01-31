@@ -12,7 +12,8 @@ namespace rStart.UnityCommandPanel
 
         private void Start()
         {
-            CommandPanel.Instance.AddPage<DebugPage>();
+            // CommandPanel.Instance.AddPage<DebugPage>();
+            CommandPanel.Instance.GetOrCreateInitialPage();
         }
 
     #endregion

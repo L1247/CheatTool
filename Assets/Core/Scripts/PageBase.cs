@@ -215,6 +215,9 @@ namespace rStart.UnityCommandPanel
                 if (selectableObj.TryGetComponent<ButtonCellModel>(out var buttonCellModel))
                     buttonCellModel.SetExecutionNumber(executionNumber);
 
+                var countIsOne            = downIndex == count;
+                if (countIsOne) downIndex = 0;
+
                 var up   = selectableList[upIndex];
                 var down = selectableList[downIndex];
 

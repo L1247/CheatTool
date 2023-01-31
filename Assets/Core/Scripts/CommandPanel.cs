@@ -59,10 +59,16 @@ namespace rStart.UnityCommandPanel
 
     #region Public Methods
 
-        public void AddPage<T>() where T : PageBase
+        public PageBase AddPage<TPage>() where TPage : PageBase
         {
-            var page = Instantiate(pagePrefab , content);
-            page.AddComponent<T>();
+            var pageInstance = Instantiate(pagePrefab , content);
+            var page         = pageInstance.AddComponent<TPage>();
+            return page;
+        }
+
+        public PageBase GetOrCreateInitialPage()
+        {
+            return AddPage<RootPage>();
         }
 
         public bool IsPageDisable()

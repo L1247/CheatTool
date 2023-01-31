@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace rStart.UnityCommandPanel
 {
-    public class DebugPage : PageBase
+    public class ExamplePage1 : PageBase
     {
     #region Protected Methods
 
