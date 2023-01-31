@@ -2,5 +2,5 @@
 
 ## Add package from git URL
 ```
-https://github.com/L1247/CommandPanel.git?path=Assets/Core
+https://github.com/L1247/UnityCommandPanel.git?path=Assets/Core
 ```
