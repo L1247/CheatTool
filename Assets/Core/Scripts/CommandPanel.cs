@@ -1,5 +1,6 @@
 #region
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ namespace rStart.UnityCommandPanel
     #region Private Variables
 
         private CanvasGroup canvasGroup;
+
+        private readonly List<PageBase> pages = new List<PageBase>();
 
         [SerializeField]
         private Button backdrop;
@@ -59,16 +62,32 @@ namespace rStart.UnityCommandPanel
 
     #region Public Methods
 
-        public PageBase AddPage<TPage>() where TPage : PageBase
+        public PageBase AddOrOpenPage<TPage>() where TPage : PageBase
         {
-            var pageInstance = Instantiate(pagePrefab , content);
-            var page         = pageInstance.AddComponent<TPage>();
+            var page = pages.Find(page => page.GetType().Name == typeof(TPage).Name);
+            if (page == false)
+            {
+                var pageInstance = Instantiate(pagePrefab , content);
+                page = pageInstance.AddComponent<TPage>();
+                pages.Add(page);
+                page.Init();
+            }
+
+            if (pages.Count > 1)
+            {
+                pages[0].gameObject.SetActive(false);
+                pages[1].gameObject.SetActive(true);
+            }
+
             return page;
         }
 
         public PageBase GetOrCreateInitialPage()
         {
-            return AddPage<RootPage>();
+            var alreadyHaveRootPage = pages.Count > 1;
+            if (alreadyHaveRootPage) return pages[0];
+            var rootPage = AddOrOpenPage<RootPage>();
+            return rootPage;
         }
 
         public bool IsPageDisable()

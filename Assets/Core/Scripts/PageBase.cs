@@ -32,21 +32,11 @@ namespace rStart.UnityCommandPanel
         private RectTransform content;
 
         private PrefabContainer prefabContainer;
+        private bool            init;
 
     #endregion
 
     #region Unity events
-
-        protected virtual void Start()
-        {
-            prefabContainer  = GetComponent<PrefabContainer>();
-            inputFieldPrefab = prefabContainer.GetPrefab("InputField");
-            content          = transform.parent.GetComponent<RectTransform>();
-            buttonPrefab     = prefabContainer.GetPrefab("Button");
-            AddSearchField("type command");
-            Initialization();
-            InitializationAfter();
-        }
 
         protected virtual void Update()
         {
@@ -56,9 +46,9 @@ namespace rStart.UnityCommandPanel
 
     #endregion
 
-    #region Protected Methods
+    #region Public Methods
 
-        protected void AddButton(string cellText , string description = "" , Action clicked = null)
+        public void AddButton(string cellText , string description = "" , Action clicked = null)
         {
             var button          = Instantiate(buttonPrefab , content).GetComponent<Button>();
             var buttonCellModel = button.gameObject.AddComponent<ButtonCellModel>();
@@ -74,13 +64,15 @@ namespace rStart.UnityCommandPanel
             cellsForSearch.Add(buttonCellModel);
         }
 
-        protected virtual void Initialization() { }
+        public void AddPageLinkButton<TPage>(string text) where TPage : PageBase
+        {
+            AddButton(text , $"Open {text} page" , () =>
+                                                   {
+                                                       CommandPanel.Instance.AddOrOpenPage<TPage>();
+                                                   });
+        }
 
-    #endregion
-
-    #region Private Methods
-
-        private void AddSearchField(string placeholder)
+        public void AddSearchField(string placeholder)
         {
             var searchFieldInstance = Instantiate(inputFieldPrefab , content);
             searchField = searchFieldInstance.GetComponent<TMP_InputField>();
@@ -88,6 +80,29 @@ namespace rStart.UnityCommandPanel
             placeholderTextComponent.text = placeholder;
             selectables.Add(searchField);
         }
+
+        public void Init()
+        {
+            if (init) return;
+            init             = true;
+            prefabContainer  = GetComponent<PrefabContainer>();
+            inputFieldPrefab = prefabContainer.GetPrefab("InputField");
+            content          = transform.parent.GetComponent<RectTransform>();
+            buttonPrefab     = prefabContainer.GetPrefab("Button");
+            AddSearchField("type command");
+            Initialization();
+            InitializationAfter();
+        }
+
+    #endregion
+
+    #region Protected Methods
+
+        protected virtual void Initialization() { }
+
+    #endregion
+
+    #region Private Methods
 
         private void ExecuteButtonOfSelectable(int index)
         {
@@ -211,7 +226,8 @@ namespace rStart.UnityCommandPanel
                     downIndex = index + 1;
                 }
 
-                var executionNumber = index > 9 ? 0 : index;
+                var maxNumber       = 9;
+                var executionNumber = index > maxNumber ? 0 : index;
                 if (selectableObj.TryGetComponent<ButtonCellModel>(out var buttonCellModel))
                     buttonCellModel.SetExecutionNumber(executionNumber);
 
