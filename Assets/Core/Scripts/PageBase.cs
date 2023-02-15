@@ -2,8 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,8 +19,6 @@ namespace rStart.UnityCommandPanel
 
         private readonly List<UnityEngine.UI.Selectable> selectables = new List<UnityEngine.UI.Selectable>();
 
-        private TMP_InputField searchField;
-
         private CanvasGroup canvasGroup;
 
         private GameObject buttonPrefab;
@@ -31,16 +27,6 @@ namespace rStart.UnityCommandPanel
 
         private PrefabContainer prefabContainer;
         private bool            init;
-
-    #endregion
-
-    #region Unity events
-
-        protected virtual void Update()
-        {
-            HandleGotoSearchField();
-            // HandleExecuteButton();
-        }
 
     #endregion
 
@@ -99,69 +85,10 @@ namespace rStart.UnityCommandPanel
             ExecuteEvents.Execute(selectable.gameObject , new BaseEventData(EventSystem.current) , ExecuteEvents.submitHandler);
         }
 
-        private void HandleExecuteButton()
-        {
-            if (searchField.isFocused == false)
-                for (var i = (int)KeyCode.Alpha1 ; i <= (int)KeyCode.Alpha9 ; ++i)
-                    if (Input.GetKeyDown((KeyCode)i))
-                    {
-                        var selectableIndex = i - (int)KeyCode.Alpha1;
-                        ExecuteButtonOfSelectable(selectableIndex);
-                    }
-        }
-
-        private void HandleGotoSearchField()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (CommandPanel.Instance.IsPageDisable())
-                {
-                    SetPageVisible(true);
-                    return;
-                }
-
-                if (EventSystem.current.currentSelectedGameObject != searchField.gameObject) Select(searchField);
-                else SetPageVisible(false);
-            }
-        }
-
         private void InitializationAfter()
         {
             SetNavigationOfSelects(selectables);
-            // searchField.onValueChanged.AddListener(OnSearchFieldChanged);
             foreach (var cellModel in selectables) cellModel.GetComponent<Selectable>().onSelect += OnSelected;
-        }
-
-        private void OnSearchFieldChanged(string str)
-        {
-            cellsForSearch.Clear();
-            foreach (var buttonCellModel in buttonCellModels)
-            {
-                var containKeyword =
-                        buttonCellModel.CellText.Contains(
-                                str , StringComparison.OrdinalIgnoreCase);
-                bool active;
-                if (containKeyword)
-                {
-                    cellsForSearch.Add(buttonCellModel);
-                    active = true;
-                }
-                else
-                {
-                    active = false;
-                }
-
-                buttonCellModel.gameObject.SetActive(active);
-            }
-
-            var selectableList = cellsForSearch
-                                .Select(model => model.Button as UnityEngine.UI.Selectable)
-                                .ToList();
-            if (selectableList.Count > 0)
-            {
-                selectableList.Insert(0 , searchField);
-                SetNavigationOfSelects(selectableList);
-            }
         }
 
         private void OnSelected(RectTransform selectable)

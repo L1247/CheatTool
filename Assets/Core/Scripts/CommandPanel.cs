@@ -25,7 +25,9 @@ namespace rStart.UnityCommandPanel
         private readonly List<PageBase> pages = new List<PageBase>();
 
         private PrefabContainer prefabContainer;
-        private GameObject      searchFieldInstance;
+        private GameObject      searchBar;
+
+        private TMP_InputField searchField;
 
         [SerializeField]
         private Button backdrop;
@@ -70,6 +72,12 @@ namespace rStart.UnityCommandPanel
             SelectSearchBar();
         }
 
+        private void Update()
+        {
+            HandleGotoSearchField();
+            HandleExecuteButton();
+        }
+
     #endregion
 
     #region Public Methods
@@ -102,11 +110,6 @@ namespace rStart.UnityCommandPanel
             return rootPage;
         }
 
-        public bool IsPageDisable()
-        {
-            return canvasGroup.alpha == 0;
-        }
-
         public void SetDescriptionText(string description)
         {
             descriptionPanel.SetDescriptionText(description);
@@ -124,11 +127,75 @@ namespace rStart.UnityCommandPanel
         private void AddSearchBar()
         {
             var inputFieldPrefab = prefabContainer.GetPrefab("InputField");
-            searchFieldInstance                         =  Instantiate(inputFieldPrefab , transform);
-            searchFieldInstance.transform.localPosition += Vector3.up * 360f;
-            var searchField              = searchFieldInstance.GetComponent<TMP_InputField>();
+            searchBar                         =  Instantiate(inputFieldPrefab , transform);
+            searchBar.transform.localPosition += Vector3.up * 360f;
+            searchField                       =  searchBar.GetComponent<TMP_InputField>();
             var placeholderTextComponent = searchField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
             placeholderTextComponent.text = "type command";
+            searchField.onValueChanged.AddListener(OnSearchFieldChanged);
+        }
+
+        private void HandleExecuteButton()
+        {
+            if (searchField.isFocused == false)
+                for (var i = (int)KeyCode.Alpha1 ; i <= (int)KeyCode.Alpha9 ; ++i)
+                    if (Input.GetKeyDown((KeyCode)i))
+                    {
+                        var selectableIndex = i - (int)KeyCode.Alpha1;
+                        // ExecuteButtonOfSelectable(selectableIndex);
+                    }
+        }
+
+        private void HandleGotoSearchField()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (Instance.IsPageDisable())
+                {
+                    SetPageVisible(true);
+                    return;
+                }
+
+                if (EventSystem.current.currentSelectedGameObject != searchBar) Select(searchBar);
+                else SetPageVisible(false);
+            }
+        }
+
+        private bool IsPageDisable()
+        {
+            return canvasGroup.alpha == 0;
+        }
+
+        private void OnSearchFieldChanged(string str)
+        {
+            // foreach (var buttonCellModel in buttonCellModels)
+            // cellsForSearch.Clear();
+            // {
+            //     var containKeyword =
+            //             buttonCellModel.CellText.Contains(
+            //                     str , StringComparison.OrdinalIgnoreCase);
+            //     bool active;
+            //     if (containKeyword)
+            //     {
+            //         cellsForSearch.Add(buttonCellModel);
+            //         active = true;
+            //     }
+            //     else
+            //     {
+            //         active = false;
+            //     }
+            //
+            //     buttonCellModel.gameObject.SetActive(active);
+            // }
+            //
+            // var selectableList = cellsForSearch
+            //                     .Select(model => model.Button as UnityEngine.UI.Selectable)
+            //                     .ToList();
+            // if (selectableList.Count > 0)
+            // {
+            //     selectableList.Insert(0 , searchField);
+            //     SetNavigationOfSelects(selectableList);
+            // }
         }
 
         private void Select(GameObject gameObject)
@@ -138,7 +205,7 @@ namespace rStart.UnityCommandPanel
 
         private void SelectSearchBar()
         {
-            Select(searchFieldInstance);
+            Select(searchBar);
         }
 
     #endregion
