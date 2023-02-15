@@ -27,8 +27,6 @@ namespace rStart.UnityCommandPanel
 
         private GameObject buttonPrefab;
 
-        private GameObject inputFieldPrefab;
-
         private RectTransform content;
 
         private PrefabContainer prefabContainer;
@@ -41,7 +39,7 @@ namespace rStart.UnityCommandPanel
         protected virtual void Update()
         {
             HandleGotoSearchField();
-            HandleExecuteButton();
+            // HandleExecuteButton();
         }
 
     #endregion
@@ -72,24 +70,13 @@ namespace rStart.UnityCommandPanel
                                                    });
         }
 
-        public void AddSearchField(string placeholder)
-        {
-            var searchFieldInstance = Instantiate(inputFieldPrefab , content);
-            searchField = searchFieldInstance.GetComponent<TMP_InputField>();
-            var placeholderTextComponent = searchField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
-            placeholderTextComponent.text = placeholder;
-            selectables.Add(searchField);
-        }
-
         public void Init()
         {
             if (init) return;
-            init             = true;
-            prefabContainer  = GetComponent<PrefabContainer>();
-            inputFieldPrefab = prefabContainer.GetPrefab("InputField");
-            content          = transform.parent.GetComponent<RectTransform>();
-            buttonPrefab     = prefabContainer.GetPrefab("Button");
-            AddSearchField("type command");
+            init            = true;
+            prefabContainer = GetComponent<PrefabContainer>();
+            content         = transform.parent.GetComponent<RectTransform>();
+            buttonPrefab    = prefabContainer.GetPrefab("Button");
             Initialization();
             InitializationAfter();
         }
@@ -141,8 +128,7 @@ namespace rStart.UnityCommandPanel
         private void InitializationAfter()
         {
             SetNavigationOfSelects(selectables);
-            SelectFirst();
-            searchField.onValueChanged.AddListener(OnSearchFieldChanged);
+            // searchField.onValueChanged.AddListener(OnSearchFieldChanged);
             foreach (var cellModel in selectables) cellModel.GetComponent<Selectable>().onSelect += OnSelected;
         }
 
@@ -192,12 +178,6 @@ namespace rStart.UnityCommandPanel
             EventSystem.current.SetSelectedGameObject(selectable.gameObject);
         }
 
-        private void SelectFirst()
-        {
-            var firstSelectable = selectables[0];
-            Select(firstSelectable);
-        }
-
         private void SetNavigationOfSelects(List<UnityEngine.UI.Selectable> selectableList)
         {
             var count = selectableList.Count;
@@ -244,7 +224,6 @@ namespace rStart.UnityCommandPanel
         private void SetPageVisible(bool visible)
         {
             CommandPanel.Instance.SetPageVisible(visible);
-            if (visible) SelectFirst();
         }
 
         private void SnapTo(RectTransform target)

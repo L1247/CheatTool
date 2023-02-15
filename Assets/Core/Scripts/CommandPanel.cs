@@ -1,7 +1,9 @@
 #region
 
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 #endregion
@@ -21,6 +23,9 @@ namespace rStart.UnityCommandPanel
         private CanvasGroup canvasGroup;
 
         private readonly List<PageBase> pages = new List<PageBase>();
+
+        private PrefabContainer prefabContainer;
+        private GameObject      searchFieldInstance;
 
         [SerializeField]
         private Button backdrop;
@@ -54,8 +59,15 @@ namespace rStart.UnityCommandPanel
             }
 
             canvasGroup       = GetComponent<CanvasGroup>();
+            prefabContainer   = GetComponent<PrefabContainer>();
             canvasGroup.alpha = openOnStart ? 1 : 0;
             backdrop.onClick.AddListener(() => SetPageVisible(false));
+        }
+
+        private void Start()
+        {
+            AddSearchBar();
+            SelectSearchBar();
         }
 
     #endregion
@@ -65,7 +77,7 @@ namespace rStart.UnityCommandPanel
         public PageBase AddOrOpenPage<TPage>() where TPage : PageBase
         {
             var page = pages.Find(page => page.GetType().Name == typeof(TPage).Name);
-            if (page == false)
+            if (page == null)
             {
                 var pageInstance = Instantiate(pagePrefab , content);
                 page = pageInstance.AddComponent<TPage>();
@@ -103,6 +115,30 @@ namespace rStart.UnityCommandPanel
         public void SetPageVisible(bool visible)
         {
             canvasGroup.alpha = visible ? 1 : 0;
+        }
+
+    #endregion
+
+    #region Private Methods
+
+        private void AddSearchBar()
+        {
+            var inputFieldPrefab = prefabContainer.GetPrefab("InputField");
+            searchFieldInstance                         =  Instantiate(inputFieldPrefab , transform);
+            searchFieldInstance.transform.localPosition += Vector3.up * 360f;
+            var searchField              = searchFieldInstance.GetComponent<TMP_InputField>();
+            var placeholderTextComponent = searchField.transform.Find("Text Area/Placeholder").GetComponent<TMP_Text>();
+            placeholderTextComponent.text = "type command";
+        }
+
+        private void Select(GameObject gameObject)
+        {
+            EventSystem.current.SetSelectedGameObject(gameObject);
+        }
+
+        private void SelectSearchBar()
+        {
+            Select(searchFieldInstance);
         }
 
     #endregion
